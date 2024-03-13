@@ -12,11 +12,15 @@ public:
 
 	virtual void update() = 0;
 
+	virtual void clear() = 0;
+
 	virtual bool isOpen() const = 0;
 
 	virtual void pollEvents() = 0;
 
 	virtual void close() = 0;
+
+	virtual GLuint getShader() = 0;
 
 	virtual GLFWwindow* getWindow() = 0;
 };

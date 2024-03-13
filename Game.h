@@ -6,6 +6,7 @@
 #include "SoundManager.h"
 #include "PhysicsManager.h"
 #include "EntityManager.h"
+#include "ComponentManager.h"
 
 class Game {
 private:
@@ -16,6 +17,7 @@ private:
 	SoundManager* soundManager;
 	PhysicsManager* physicsManager;
 	EntityManager* entityManager;
+	ComponentManager* componentManager;
 	bool isRunning;
 
 public:

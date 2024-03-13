@@ -4,6 +4,7 @@
 
 class CTransform : public Component {
 public:
+	bool has = false;
 	Vec2 position = {0.0f, 0.0f};
 	Vec2 prevPosition = {0.0f, 0.0f};
 	Vec2 scale = {1.0f, 1.0f};

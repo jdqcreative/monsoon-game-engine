@@ -19,6 +19,10 @@ public:
 		return id;
 	}
 
+	std::vector<std::unique_ptr<Entity>>& getEntities() {
+		return m_entities;
+	}
+
 	void destroyEntity(EntityID id) {
 		// TODO
 	}

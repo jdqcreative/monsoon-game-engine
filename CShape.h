@@ -2,15 +2,19 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "glm/gtc/matrix_transform.hpp"
 #include "Component.h"
 
 class CShape : public Component {
 public:
+	bool has = false;
 	float m_width = 100;
 	float m_height = 100;
 	GLuint m_vbo = 0;
 	GLuint m_vao = 0;
+
+	CShape() {}
 
 	CShape(float width, float height)
 		: m_width(width), m_height(height) {
@@ -47,9 +51,15 @@ public:
 		glDeleteVertexArrays(1, &m_vao);
 	}
 
-	void render(const glm::mat4& parentTransform = glm::mat4(1.0f)) {
-		// Apply parent transform
-		glm::mat4 model = parentTransform;
+	void render(const Vec2& position, GLint shaderProgram) {
+		// Set the model matrix to translate the shape to the specified coordinates
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
+
+		// Get the location of the model matrix uniform in the shader
+		unsigned int modelLoc = glGetUniformLocation(shaderProgram, "model");
+		// Sett the model matrix uniform in the shader
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Render shape
 		glBindVertexArray(m_vao);

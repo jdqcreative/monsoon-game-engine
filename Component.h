@@ -8,8 +8,5 @@ class EntityManager;
 
 class Component {
 public:
-	virtual ~Component() = default;
-	virtual void init() {}
-	virtual void update(float deltaTime) {}
-	virtual void render(const glm::mat4& parentTransform = glm::mat4(1.0f)) {}
+	//virtual ~Component() = default;
 };

@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="CShape.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="Entity.h" />

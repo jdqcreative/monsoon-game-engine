@@ -6,7 +6,7 @@
 // Game class constructor
 Game::Game()
 	: window(nullptr), sceneManager(nullptr), inputManager(nullptr), assetManager(nullptr),
-	soundManager(nullptr), physicsManager(nullptr), isRunning(false)
+	soundManager(nullptr), physicsManager(nullptr), entityManager(nullptr), componentManager(nullptr), isRunning(false)
 {}
 
 // calculate time elapsed since last frame
@@ -50,6 +50,7 @@ void Game::initialize()
 	soundManager = new SoundManager();
 	physicsManager = new PhysicsManager();
 	entityManager = new EntityManager();
+	componentManager = new ComponentManager();
 
 #endif
 
@@ -59,6 +60,14 @@ void Game::initialize()
 
 	// other initialization
 	isRunning = window->isOpen();
+
+	// ==== TEST CODE ===================================
+	auto player = entityManager->createEntity();
+	auto shape = CShape{ 10000, 10000 };
+	auto transform = CTransform{ Vec2{50.0f, 50.0f} };
+	componentManager->addTransformComp(player, transform);
+	componentManager->addShapeComp(player, shape);
+	// ==== END OF TEST CODE ============================
 }
 
 void Game::update(float deltaTime)
@@ -67,17 +76,32 @@ void Game::update(float deltaTime)
 	inputManager->update();
 	sceneManager->update(deltaTime);
 	physicsManager->update(deltaTime);
-	entityManager->update(deltaTime);
+	//entityManager->update(deltaTime);
 }
 
 void Game::render()
 {
+	window->clear();
 
 	// render the current scene and objects
 	sceneManager->render();
-	entityManager->render();
+
+	// ==== TEST CODE ===================================
+	for (auto& e : entityManager->getEntities()) {
+		if (componentManager->getShapeComp(e->getId())->has) {
+			componentManager->getShapeComp(e->getId())->render(
+				componentManager->getTransformComp(e->getId())->position, window->getShader()
+			);
+			std::cout << "Entity should be rendering now." << std::endl;
+		}
+		//std::cout << "looping through entities" << std::endl;
+	}
+	// ==== END OF TEST CODE ============================
 
 	// additional rendering tasks like UI, HUD, etc.
+
+	// Update window
+	window->update();
 }
 
 void Game::run()
